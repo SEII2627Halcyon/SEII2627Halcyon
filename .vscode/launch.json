@@ -1,0 +1,70 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch API",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-api",
+            "program": "${workspaceFolder}/src/AppForSEII.API/bin/Debug/net10.0/AppForSEII.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/AppForSEII.API",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            }
+        },
+        {
+            "name": "Launch Web",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-web",
+            "program": "${workspaceFolder}/src/AppForSEII.Web/bin/Debug/net10.0/AppForSEII.Web.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/AppForSEII.Web",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            }
+        },
+        {
+            "name": "Debug Unit Tests",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "dotnet",
+            "args": [
+                "test",
+                "${workspaceFolder}/test/AppForSEII.UT/AppForSEII.UT.csproj"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Debug UI Tests",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "dotnet",
+            "args": [
+                "test",
+                "${workspaceFolder}/test/AppForSEII.UIT/AppForSEII.UIT.csproj"
+            ],
+            "cwd": "${workspaceFolder}"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch API + Web",
+            "configurations": [
+                "Launch API",
+                "Launch Web"
+            ]
+        }
+    ]
+}

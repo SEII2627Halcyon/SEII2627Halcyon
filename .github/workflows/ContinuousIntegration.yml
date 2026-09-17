@@ -1,0 +1,63 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: 
+        - development
+  pull_request:
+    branches: 
+        - development
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      API: ./src/AppForSEII.API/AppForSEII.API.csproj
+      WEB: ./src/AppForSEII.Web/AppForSEII.Web.csproj
+      UT:  ./test/AppForSEII.UT/AppForSEII.UT.csproj
+      UIT: ./test/AppForSEII.UIT/AppForSEII.UIT.csproj
+      
+    steps:
+      - name: Check out repository code 
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Info
+        run: dotnet --info    
+        
+      - name: Restore dependencies        
+        run: |  
+          dotnet restore ${{ env.API }} 
+          dotnet restore ${{ env.WEB }}  
+          dotnet restore ${{ env.UT }}  
+          dotnet restore ${{ env.UIT }}  
+          
+      - name: Build the solution
+        run: |
+          dotnet build ${{ env.API }}  --configuration Release --no-restore
+          dotnet build ${{ env.WEB }}  --configuration Release --no-restore
+          dotnet build ${{ env.UT }}  --configuration Release --no-restore
+          dotnet build ${{ env.UIT }}  --configuration Release --no-restore
+
+      - name: Run tests with coverage
+        run: |
+          dotnet test ${{ env.UT }} \
+          --configuration Release \
+          --collect:"XPlat Code Coverage"
+
+      - name: Install ReportGenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Generate coverage report
+        run: |
+          reportgenerator \
+          -reports:**/coverage.cobertura.xml \
+          -targetdir:coverage-report \
+          -reporttypes:Html

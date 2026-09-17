@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/appforseii.api/">
+    <Project Path="src/appforseii.api/AppForSEII.API.csproj" />
+  </Folder>
+  <Folder Name="/src/appforseii.web/">
+    <Project Path="src/appforseii.web/AppForSEII.Web.csproj" />
+  </Folder>
+  <Folder Name="/test/" />
+  <Folder Name="/test/appforseii.uit/">
+    <Project Path="test/appforseii.uit/AppForSEII.UIT.csproj" />
+  </Folder>
+  <Folder Name="/test/appforseii.ut/">
+    <Project Path="test/appforseii.ut/AppForSEII.UT.csproj" />
+  </Folder>
+</Solution>
